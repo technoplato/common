@@ -107,6 +107,7 @@ Keep related files together in the same directory:
    Running tests - expected to fail:
    [test output snippet showing expected failures]
    ```
+   Can we have the agent edit the cursor updates file
 
 ### Implementing the Story
 
