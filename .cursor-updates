@@ -1,3 +1,4 @@
 # Cursor Updates
 
 - 2024-07-10: Generated project file structure and updated coding agent prompt with kebab-case file naming conventions and .cursor-updates documentation requirements. [Commit](https://github.com/technoplato/common/commit/6200c9c10698a81f97423426c2f1cff0154b6f2c)
+- 2024-07-10: Updated coding agent prompt with instructions for feature branching, pushing branches, and creating pull requests.

@@ -64,7 +64,12 @@ Keep related files together in the same directory:
 ### Starting a Story
 
 1. **Identify Next Task**: Find the first unchecked task in the task list. Note the Task ID and any related PRD/SRS references.
-2. **Begin Work Log Entry**:
+2. **Create Feature Branch**: Create and checkout a new branch for the feature story.
+   ```
+   Creating feature branch:
+   $ git checkout -b feature/[task-id]-[short-description]
+   ```
+3. **Begin Work Log Entry**:
 
    ```
    # Work Log: [Date]
@@ -77,7 +82,7 @@ Keep related files together in the same directory:
    Starting implementation...
    ```
 
-3. **Write Tests First**: Create test files that define the expected behavior, referencing PRD requirements.
+4. **Write Tests First**: Create test files that define the expected behavior, referencing PRD requirements.
 
    ```
    Creating tests for [feature name]:
@@ -97,7 +102,7 @@ Keep related files together in the same directory:
    [code snippet of test]
    ```
 
-4. **Run Tests**: Run the test suite to confirm tests are failing correctly.
+5. **Run Tests**: Run the test suite to confirm tests are failing correctly.
    ```
    Running tests - expected to fail:
    [test output snippet showing expected failures]
@@ -138,17 +143,22 @@ Keep related files together in the same directory:
    - [Specific detail about tests]
    - References PRD-X.Y.Z"
    ```
-3. **Update Current File Structure**: Run a standardized command to document the project structure.
+3. **Push Feature Branch**: Push the feature branch to the remote repository.
+   ```
+   Pushing feature branch:
+   $ git push -u origin feature/[task-id]-[short-description]
+   ```
+4. **Update Current File Structure**: Run a standardized command to document the project structure.
    ```
    Current project structure:
    $(tree -I "node_modules|.git|build|dist|.next|.expo")
    ```
-4. **Update .cursor-updates File**: Add a one-sentence summary of changes to the `.cursor-updates` file in markdown format.
+5. **Update .cursor-updates File**: Add a one-sentence summary of changes to the `.cursor-updates` file in markdown format.
    ```
    Adding to .cursor-updates:
    - [Date]: [One-sentence summary of changes made]
    ```
-5. **Create GitHub Commit Link**: After committing, create a GitHub commit URL and add it to the task list or `.cursor-updates` file.
+6. **Create GitHub Commit Link**: After committing, create a GitHub commit URL and add it to the task list or `.cursor-updates` file.
 
    ```
    Determining repository URL:
@@ -161,6 +171,31 @@ Keep related files together in the same directory:
    ```
 
 > Note: If you forget to update the `.cursor-updates` file, the user can type the command "finish" and you will run the build and update the file. Always remove the `.git` from the repository URL when creating GitHub commit links.
+
+### Creating Pull Requests
+
+After completing a feature story:
+
+1. **Create Pull Request**: Suggest creating a pull request from the feature branch to the main branch.
+
+   ```
+   Creating pull request:
+   $ gh pr create --base main --head feature/[task-id]-[short-description] --title "[Task ID]: [Feature Description]" --body "Closes #[issue-number]
+
+   Description:
+   - [Summary of changes]
+   - [Implementation details]
+   - [Testing approach]
+
+   References:
+   - PRD-X.Y.Z
+   "
+   ```
+
+2. **Link Pull Request**: Add the pull request URL to the task list or `.cursor-updates` file.
+   ```
+   Pull Request: https://github.com/username/repo/pull/[pr-number]
+   ```
 
 ## Testing Protocol
 
