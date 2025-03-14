@@ -1,4 +1,26 @@
 .
+├── .cursor
+│   └── rules
+│       ├── agent
+│       │   └── agent-flow.mdc
+│       └── best-practices
+│           ├── react
+│           │   ├── best-practices--imports.mdc
+│           │   ├── best-practices--react-components.mdc
+│           │   ├── best-practices--react-query.mdc
+│           │   ├── best-practices--styling-patterns.mdc
+│           │   └── best-practices--text-component-usage.mdc
+│           └── typescript
+│               ├── best-practices--code-organization.mdc
+│               ├── best-practices--file-structure.mdc
+│               ├── best-practices--function-parameters.mdc
+│               ├── best-practices--general.mdc
+│               ├── best-practices--typescript.mdc
+│               ├── best-practices--zod.mdc
+│               └── best-practices--zustand.mdc
+├── .cursor-updates
+├── .gitattributes
+├── .gitignore
 ├── docs
 │   ├── agent
 │   │   └── file-structure.txt
@@ -7,9 +29,9 @@
 │       ├── prd.domain.md
 │       └── srs.domain.md
 ├── prompts
-│   ├── coding-agent-prompt.md
 │   ├── idea-to-prd.md
-│   └── prd-to-kanban.md
+│   ├── prd-to-kanban.base.md
+│   └── prd-to-kanban.react.md
 └── README.md
 
-4 directories, 8 files
+10 directories, 24 files

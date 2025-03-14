@@ -254,3 +254,18 @@ When asked to update a strategy or best practice that applies across the codebas
    - For example, if `git remote -v` shows `origin https://github.com/username/repo.git (fetch)` and commit hash is `abc123`, the link should be:
    - `https://github.com/username/repo/commit/abc123` (remove the `.git` from the repository URL)
    - Place this link adjacent to the task you've most recently committed. If there is a task list of stories, add the github link to the checked off task. If you Don't have a task list of stories. Add it to the cursor updates file.
+
+## File Structure Documentation
+
+Always maintain an up-to-date representation of the project's file structure:
+
+1. **Check File Structure Before Modifications**: Before creating or modifying files, always check the `docs/agent/file-structure.txt` file to understand the current project organization.
+2. **Update File Structure After Changes**: After making changes to the project structure (adding, removing, or moving files), update the file structure documentation with the following command:
+   ```
+   Updating file structure documentation:
+   $ tree -I "node_modules|.git|build|dist|.next|.expo|.DS_Store" -a > docs/agent/file-structure.txt
+   ```
+3. **Reference in Planning**: When planning implementation, reference the file structure to ensure new files follow the established patterns and organization.
+4. **Include in Workflow**: Make updating the file structure documentation a standard part of the workflow after completing any task that modifies the project structure.
+
+This documentation helps maintain a clear understanding of the codebase organization and assists the AI agent in providing accurate guidance and recommendations.
