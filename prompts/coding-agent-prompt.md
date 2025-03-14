@@ -1,0 +1,214 @@
+# Agent Runtime Instructions
+
+## Primary Directives
+
+- **Tests Must Pass**: Your highest priority is to maintain a passing test suite. Never leave tests failing in a commit.
+- **Test-Driven Development**: Always write tests first, then implement the feature to make tests pass.
+- **Task Progression**: Always work on the first unchecked task in the task list. Complete it fully before moving to the next task.
+- **Commit Discipline**: Each commit should represent a single completed story with passing tests.
+
+## File Organization Principles
+
+### Package by Feature
+
+Organize code by feature rather than by technical component or framework structure.
+
+- Example: `/features/device-timer/` containing all files related to the device timer feature
+- Avoid organization like `/components/`, `/services/`, `/utils/` at the top level
+
+### File Naming Conventions
+
+Use lower kebab-case for all files and directories, with clear suffixes to indicate file purpose:
+
+- Feature implementation: `feature-name.ts`
+- Unit tests: `feature-name.unit.test.ts`
+- Integration tests: `feature-name.integration.test.ts`
+- Maestro E2E tests: `.maestro/feature-name.e2e.test.yaml`
+- React components: `feature-name.component.tsx` (component name can be PascalCase in code, but file name should be kebab-case)
+- Styles: `feature-name.styles.ts`
+- Solana program files: `feature-name.program.ts`
+
+Avoid using PascalCase, camelCase, or snake_case for file and directory names.
+
+### Co-location
+
+Keep related files together in the same directory:
+
+- Tests should be in the same directory as the code they test
+- UI components should be with their related feature logic
+
+## Code Organization Best Practices
+
+### Within Files
+
+- Place exported functions and variables at the top of the file
+- Place helper functions and non-exported items below the exported items
+- Define types close to their implementation
+- Group related functionality together
+
+### Function Structure
+
+- Use object parameters for functions with multiple parameters
+- Destructure parameters at the top of the function body
+- Prefer early returns over nested conditionals
+- Keep functions focused on a single responsibility
+
+### Error Handling
+
+- Handle errors at the appropriate level
+- Provide meaningful error messages
+- Use consistent error handling patterns throughout the codebase
+
+## Workflow Protocol
+
+### Starting a Story
+
+1. **Identify Next Task**: Find the first unchecked task in the task list. Note the Task ID and any related PRD/SRS references.
+2. **Begin Work Log Entry**:
+
+   ```
+   # Work Log: [Date]
+
+   ## Task [Task ID]: [Task Description]
+
+   Related PRD sections: [PRD-X.Y.Z]
+   Related SRS sections: [SRS-X.Y.Z]
+
+   Starting implementation...
+   ```
+
+3. **Write Tests First**: Create test files that define the expected behavior, referencing PRD requirements.
+
+   ```
+   Creating tests for [feature name]:
+
+   In [filename]:
+   /*
+   Test for [Feature Name]
+
+   PRD Reference: [quote relevant PRD section]
+
+   This test validates that:
+   - [expectation 1]
+   - [expectation 2]
+   */
+
+   Test implementation:
+   [code snippet of test]
+   ```
+
+4. **Run Tests**: Run the test suite to confirm tests are failing correctly.
+   ```
+   Running tests - expected to fail:
+   [test output snippet showing expected failures]
+   ```
+
+### Implementing the Story
+
+1. **Implement Code**: Write the minimum code needed to make tests pass.
+
+   ```
+   Implementing solution:
+
+   In [filename]:
+   [code snippet of implementation]
+
+   Reasoning:
+   - [explanation of approach]
+   - [any design decisions made]
+   ```
+
+2. **Verify Tests**: Run tests again to confirm implementation passes.
+   ```
+   Running tests - now passing:
+   [test output snippet showing tests passing]
+   ```
+
+### Completing the Story
+
+1. **Update Task List**: Mark the task as complete in the task list.
+   ```
+   Marking task [Task ID] complete.
+   ```
+2. **Commit Changes**: Create a commit with a specific message describing this particular change.
+   ```
+   Committing with message:
+   "[Task ID]: [Specific description of what was implemented]
+   - [Specific detail about implementation]
+   - [Specific detail about tests]
+   - References PRD-X.Y.Z"
+   ```
+3. **Update Current File Structure**: Run a standardized command to document the project structure.
+   ```
+   Current project structure:
+   $(tree -I "node_modules|.git|build|dist|.next|.expo")
+   ```
+4. **Update .cursor-updates File**: Add a one-sentence summary of changes to the `.cursor-updates` file in markdown format.
+   ```
+   Adding to .cursor-updates:
+   - [Date]: [One-sentence summary of changes made]
+   ```
+5. **Create GitHub Commit Link**: After committing, create a GitHub commit URL and add it to the task list or `.cursor-updates` file.
+
+   ```
+   Determining repository URL:
+   $ git remote -v
+
+   Creating GitHub commit link:
+   https://github.com/username/repo/commit/[commit-hash]
+
+   Adding link to task list or .cursor-updates file.
+   ```
+
+> Note: If you forget to update the `.cursor-updates` file, the user can type the command "finish" and you will run the build and update the file. Always remove the `.git` from the repository URL when creating GitHub commit links.
+
+## Testing Protocol
+
+### Continuous Testing
+
+- Start the test runner in watch mode when available
+- Use the output from the most recent test run to guide development
+- For long-running integration tests, continue work and check results when available
+
+### Test Structure
+
+- Tests should be co-located with the feature they test
+- Begin each test file with a comment block that:
+  - Describes the feature being tested
+  - References relevant PRD/SRS sections
+  - Lists key expectations and assumptions
+
+### Test Running
+
+- Inspect the project to determine the appropriate test command
+- Use watch mode where available: `npm test -- --watch`
+- For targeted testing: `npm test -- path/to/specific.test.ts`
+
+### Test Troubleshooting
+
+- If tests fail after implementation, debug the implementation, not the test
+- When test requirements need adjustment, document why with PRD references
+
+## When Requirements Change
+
+- Document the change in the work log with clear reasoning
+- Update the PRD document with tracked changes
+- Update the task list to reflect new requirements
+- Update tests to reflect new requirements
+- Implement changes to meet updated tests
+- Mark commits with "(req-change)" and reference the updated PRD section
+
+## Meta-Strategy Updates
+
+When asked to update a strategy or best practice that applies across the codebase (rather than a specific piece of code):
+
+1. Look in the `.cursor/rules/best-practices` directory for the relevant best practice file
+2. Update both the best practice file and this coding agent prompt if necessary
+3. Ensure that language-specific best practices remain in their respective best practice files
+4. Keep this coding agent prompt language-agnostic and focused on universal principles
+5. Always add a one-sentence summary of changes to `.cursor-updates` file in markdown format
+6. If you forget to update the `.cursor-updates` file, the user can type the command "finish" and you will run the build and update the file
+7. After committing changes, create a GitHub commit URL and add it to the task list or `.cursor-updates` file
+   - For example, if `git remote -v` shows `origin https://github.com/username/repo.git (fetch)` and commit hash is `abc123`, the link should be:
+   - `https://github.com/username/repo/commit/abc123` (remove the `.git` from the repository URL)
+   - Place this link adjacent to the task you've most recently committed. If there is a task list of stories, add the github link to the checked off task. If you Don't have a task list of stories. Add it to the cursor updates file.
