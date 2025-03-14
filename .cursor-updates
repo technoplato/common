@@ -6,3 +6,4 @@
 - 2024-07-14: Added efficient workflow commands to agent-flow.mdc for streamlined commit and documentation processes.
 - 2025-03-14: Added efficient workflow commands to agent-flow.mdc for streamlined commit and documentation processes [Commit](https://github.com/technoplato/common/commit/c0e4acfbae596e5b2c95f0d57e41935114ff8833)
 - 2025-03-14: Updated README with efficient workflow command examples [Commit](https://github.com/technoplato/common/commit/44a7af318e4767e3c9ed73f2537f6994c8fcc9cd)
+- 2025-03-14: Updated workflow commands to automatically push changes after commits.
