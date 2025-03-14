@@ -1,7 +1,0 @@
----
-description: 
-globs: 
-alwaysApply: true
----
-
-Follow [coding-agent-prompt.md](mdc:prompts/coding-agent-prompt.md)
