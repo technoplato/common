@@ -1,0 +1,15 @@
+.
+├── docs
+│   ├── agent
+│   │   └── file-structure.txt
+│   └── swe
+│       ├── brd.domain.md
+│       ├── prd.domain.md
+│       └── srs.domain.md
+├── prompts
+│   ├── coding-agent-prompt.md
+│   ├── idea-to-prd.md
+│   └── prd-to-kanban.md
+└── README.md
+
+4 directories, 8 files
