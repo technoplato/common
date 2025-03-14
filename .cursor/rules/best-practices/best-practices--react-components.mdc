@@ -1,0 +1,30 @@
+---
+description: Best practices for React and component development
+globs: *.tsx
+alwaysApply: true
+---
+
+## React & Components
+
+- Use named exports.
+- Write JSX inline.
+- Prefer early returns over ternaries.
+- Minimize useEffect usage.
+- Wrap components in memo() for performance.
+- This codebase uses React Native - follow all React Native best practices.
+- Never place hooks inside conditionals, loops, or nested functions - this violates React's Rules of Hooks.
+- Avoid using render functions (renderHeader, renderContent, etc.) within components. Instead, create separate component functions for each logical UI section.
+- For styling components, use the style prop with an object instead of direct props:
+
+```typescript
+// ❌ Bad: Using style props directly
+<HStack alignItems="center" gap={theme.spacing.sm}>
+
+// ✅ Good: Using style object
+<HStack
+  style={{
+    alignItems: "center",
+    gap: theme.spacing.sm,
+  }}
+>
+``` 

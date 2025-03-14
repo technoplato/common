@@ -1,0 +1,55 @@
+---
+description: Best practices for organizing code within files
+globs: *.ts,*.tsx
+alwaysApply: true
+---
+
+## Code Organization
+
+- Place exported functions, components, and variables at the top of the file.
+- Place helper functions and non-exported components below the exported items.
+- Define types close to their implementation:
+  - Place type definitions directly above the function or component that uses them.
+  - Only place types at the top of the file if they're used in multiple places throughout the file.
+
+```typescript
+// ❌ Bad: Helper function above exported function
+function formatUserName(firstName: string, lastName: string) {
+  return `${firstName} ${lastName}`
+}
+
+export function UserProfile(args: { userId: string }) {
+  // Implementation
+}
+
+// ✅ Good: Exported function at the top, helper below
+export function UserProfile(args: { userId: string }) {
+  // Implementation using formatUserName
+}
+
+function formatUserName(firstName: string, lastName: string) {
+  return `${firstName} ${lastName}`
+}
+
+// ❌ Bad: Type definition far from implementation
+type IFormatOptions = {
+  uppercase: boolean
+  includeMiddleName: boolean
+}
+
+// Many lines of code...
+
+function formatName(args: { name: string; options: IFormatOptions }) {
+  // Implementation
+}
+
+// ✅ Good: Type definition close to implementation
+type IFormatOptions = {
+  uppercase: boolean
+  includeMiddleName: boolean
+}
+
+function formatName(args: { name: string; options: IFormatOptions }) {
+  // Implementation
+}
+``` 

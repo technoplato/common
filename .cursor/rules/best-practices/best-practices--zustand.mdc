@@ -1,0 +1,138 @@
+---
+description: Best practices for Zustand state management
+globs: *.ts,*.tsx
+alwaysApply: true
+---
+
+## Zustand Store Best Practices
+
+- Use Zustand stores to centralize state and actions, especially when passing many props between components.
+- Always use `subscribeWithSelector` and `persist` middleware for all stores.
+- Always use MMKV storage singleton for persistence in React Native apps.
+- Structure stores with a clear separation between state and actions:
+- Always remove actions from state in the `partialize` function to avoid serialization issues.
+- Always add logging in `onRehydrateStorage` to assist in debugging.
+- Include utility functions at the bottom of the file for common use cases.
+
+```typescript
+// ✅ Good: Complete store setup with persistence and subscriptions
+import { create } from "zustand"
+import { createJSONStorage, persist, subscribeWithSelector } from "zustand/middleware"
+import { zustandMMKVStorage } from "@/utils/mmkv"
+import { logger } from "@/utils/logger"
+import { captureError } from "@/utils/capture-error"
+import { enhanceError } from "@/utils/error"
+
+// Define store state type
+type ICounterStoreState = {
+  count: number
+  isLoading: boolean
+}
+
+// Define store actions type
+type ICounterStoreActions = {
+  increment: () => void
+  decrement: () => void
+  reset: () => void
+  fetchCount: () => Promise<void>
+}
+
+// Combine State and Actions for the store type
+type ICounterStoreType = ICounterStoreState & {
+  actions: ICounterStoreActions
+}
+
+// Initial state
+const initialState: ICounterStoreState = {
+  count: 0,
+  isLoading: false,
+}
+
+// Store name constant (changing this will break existing persisted data)
+const STORE_NAME = "counter-store"
+
+// Create the store with proper middleware
+export const useCounterStore = create<ICounterStoreType>()(
+  subscribeWithSelector(
+    persist(
+      (set, get) => ({
+        // State
+        ...initialState,
+        
+        // Actions
+        actions: {
+          increment: () => set((state) => ({ count: state.count + 1 })),
+          decrement: () => set((state) => ({ count: state.count - 1 })),
+          reset: () => {
+            set(initialState)
+            zustandMMKVStorage.removeItem(STORE_NAME)
+          },
+          fetchCount: async () => {
+            set({ isLoading: true })
+            try {
+              const count = await api.getCount()
+              set({ count, isLoading: false })
+            } catch (error) {
+              set({ isLoading: false })
+              throw new AppError({
+                error,
+                additionalMessage: "Failed to fetch count",
+              })
+            }
+          },
+        },
+      }),
+      {
+        name: STORE_NAME,
+        storage: createJSONStorage(() => zustandMMKVStorage),
+        partialize: (state) => {
+          // Remove the actions from partialized state
+          const { actions, ...rest } = state
+          return rest
+        },
+        onRehydrateStorage: () => (state, error) => {
+          if (error) {
+            captureError(enhanceError(error, `Error during ${STORE_NAME} hydration`))
+            return
+          }
+          logger.debug(
+            `[useCounterStore#onRehydrateStorage] State hydrated successfully: ${JSON.stringify(
+              state,
+              null,
+              2,
+            )}`,
+          )
+        },
+      },
+    ),
+  ),
+)
+
+// Utility functions for common use cases
+export function useCount() {
+  return useCounterStore((state) => state.count)
+}
+
+export function useIsCountLoading() {
+  return useCounterStore((state) => state.isLoading)
+}
+
+export function getCount() {
+  return useCounterStore.getState().count
+}
+
+export function resetCounterStore() {
+  useCounterStore.getState().actions.reset()
+}
+```
+
+- Use zustand selectors to minimize re-renders:
+
+```typescript
+// ❌ Bad: Getting the entire store
+const { count, actions } = useCounterStore()
+
+// ✅ Good: Using selectors for specific values
+const count = useCounterStore((state) => state.count)
+const { increment } = useCounterStore((state) => state.actions)
+``` 

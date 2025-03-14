@@ -1,0 +1,48 @@
+---
+description: Best practices for styling React Native components
+globs: *.tsx
+alwaysApply: true
+---
+
+## Styling Patterns
+
+- Use the dollar sign ($) prefix for style objects defined outside of components.
+- Use ThemedStyle<ViewStyle> for theme-dependent styles that need access to theme variables.
+- Extract complex styles outside the component with the $ prefix.
+- Use $globalStyles for common styling patterns that are reused across components.
+- Use inline styles for simple, one-off styling needs.
+- Append "Override" to style props that override default component styles.
+
+```typescript
+// ✅ Good: Use ThemedStyle for theme-dependent styles
+<VStack style={themed($container)} />
+
+const $container: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+  alignItems: "center",
+  justifyContent: "center",
+  paddingHorizontal: spacing.md,
+  backgroundColor: colors.background,
+  borderRadius: 8,
+});
+
+// ✅ Good: Use $globalStyles for common patterns
+<VStack style={[$globalStyles.center, $globalStyles.flex1]} />
+
+// ✅ Good: Combine global styles with component-specific styles
+<VStack style={[$globalStyles.center, $container]} />
+```
+
+- When accepting style overrides in component props, use consistent naming:
+
+```typescript
+type ComponentProps = {
+  style?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
+  // etc.
+}
+
+// Then in the component:
+<View style={[$defaultStyle, style]} />
+<View style={[$defaultContainerStyle, containerStyle]} />
+``` 

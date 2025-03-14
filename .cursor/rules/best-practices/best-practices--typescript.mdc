@@ -1,0 +1,78 @@
+---
+description: Best practices for TypeScript usage
+globs: *.ts,*.tsx
+alwaysApply: true
+---
+
+## TypeScript
+
+- Use types over interfaces, prefixed with 'I'.
+- Never use 'any'.
+- Avoid enums, use `const` objects with `as const` assertion and derive types with `keyof typeof`:
+- Prefer type inference when possible.
+- Avoid explicit Promise return types - let TypeScript infer them.
+
+## Using const objects with keyof typeof
+
+For string/number literal unions, prefer using const objects with `as const` and derive types with `keyof typeof` instead of enums or string literal unions:
+
+```typescript
+// ❌ Bad: Using enum or string literal union
+enum HttpMethodEnum {
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
+
+// Or string literal union
+type HttpMethodType = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+// ✅ Good: Using const object with keyof typeof
+const HttpMethods = {
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+} as const;
+
+// Derive type from the object keys
+type HttpMethod = keyof typeof HttpMethods;
+// Type is now exactly: "GET" | "POST" | "PUT" | "DELETE"
+
+// Usage example
+function makeRequest(url: string, method: HttpMethod) {
+  // Type-safe method parameter
+  console.log(`Making ${method} request to ${url}`);
+}
+```
+
+### Benefits of this pattern:
+
+1. **Runtime values**: The object gives you runtime values you can reference
+2. **Type safety**: TypeScript enforces valid keys at compile time
+3. **Tree-shakeable**: Unlike enums, unused values can be tree-shaken
+4. **Single source of truth**: Values are defined once, reducing duplication
+5. **Autocompletion**: IDE provides autocomplete for the keys
+
+### When to use:
+
+- For any set of related constants (HTTP methods, status codes, event types)
+- When you need both the runtime values and the type
+- As a replacement for enums
+
+```typescript
+// ❌ Bad: No return type
+async function fetchUser(id: string) {
+  return api.getUser(id)
+}
+
+// ✅ Good: Explicit Promise return type
+async function fetchUser(id: string): Promise<IUser> {
+  return api.getUser(id)
+}
+
+// ✅ Good: Non-Promise return types should be explicit
+function calculateTotal(items: ICartItem[]): number {
+  return items.reduce((sum, item) => sum + item.price, 0)
+}
+``` 

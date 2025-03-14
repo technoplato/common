@@ -1,0 +1,166 @@
+---
+description: Best practices for Zod
+globs: *.ts,*.tsx
+alwaysApply: true
+---
+
+## Zod
+
+- Always define Zod schemas for data coming from external sources (APIs, SDKs, databases).
+- Use schemas to validate data at the boundaries of your application.
+- Prefix schema names with `z` to distinguish them from type interfaces.
+- Export both the schema and the inferred type.
+- Use Zod's transformation capabilities for data normalization.
+- Prefer composition over repetition by reusing schema parts.
+- Add helpful error messages to schema validations.
+
+```typescript
+// ❌ Bad: No schema validation for API data
+async function fetchUser(id: string) {
+  const response = await api.getUser(id)
+  return response.data // Unvalidated data
+}
+
+// ✅ Good: Schema validation for API data
+import { z } from "zod"
+
+// Define the schema
+export const zUser = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email format"),
+  role: z.enum(["admin", "user", "guest"]),
+  createdAt: z.string().datetime().transform(str => new Date(str)),
+})
+
+// Export the inferred type
+export type IUser = z.infer<typeof zUser>
+
+async function fetchUser(id: string): Promise<IUser> {
+  const response = await api.getUser(id)
+  // Validate data against schema
+  return zUser.parse(response.data)
+}
+```
+
+### Schema Composition
+
+Prefer composition over duplication:
+
+```typescript
+// ❌ Bad: Duplicating schema properties
+const zCreateUser = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  password: z.string().min(8),
+})
+
+const zUpdateUser = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+})
+
+// ✅ Good: Composing schemas
+const zUserBase = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email format"),
+})
+
+const zCreateUser = zUserBase.extend({
+  password: z.string().min(8, "Password must be at least 8 characters"),
+})
+
+const zUpdateUser = zUserBase.partial() // Makes all fields optional
+```
+
+### Error Handling
+
+Handle schema validation errors properly:
+
+```typescript
+// ❌ Bad: No error handling
+function processUserData(data: unknown) {
+  const user = zUser.parse(data)
+  // Process user...
+}
+
+// ✅ Good: Proper error handling
+import { fromZodError } from "zod-validation-error"
+
+function processUserData(data: unknown) {
+  try {
+    const user = zUser.parse(data)
+    // Process validated user...
+    return user
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      // Convert to friendly error format
+      const validationError = fromZodError(error)
+      throw new AppError({
+        message: "Invalid user data",
+        details: validationError.message,
+        code: "VALIDATION_ERROR",
+      })
+    }
+    throw error
+  }
+}
+```
+
+### Schema Organization
+
+- Place schemas in dedicated files with a `.schema.ts` extension.
+- Group related schemas together in the same file.
+- For complex domains, create a dedicated schemas directory.
+
+```
+features/
+└── users/
+    ├── schemas/
+    │   ├── user.schema.ts  // Contains zUser and related schemas
+    │   └── auth.schema.ts  // Contains login/register schemas
+    ├── components/
+    └── users.query.ts
+```
+
+### Form Data Validation
+
+Use Zod with form libraries:
+
+```typescript
+// With React Hook Form
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+
+const zSignupForm = z.object({
+  email: z.string().email("Invalid email"),
+  password: z.string().min(8, "Password too short"),
+  confirmPassword: z.string(),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+})
+
+type ISignupForm = z.infer<typeof zSignupForm>
+
+function SignupForm() {
+  const { register, handleSubmit, errors } = useForm<ISignupForm>({
+    resolver: zodResolver(zSignupForm),
+  })
+  
+  // Form implementation...
+}
+```
+
+### Runtime Type Checking
+
+Always use Zod for runtime type checking when dealing with:
+
+1. API responses
+2. External SDK data
+3. User input
+4. URL parameters and query strings
+5. Local storage data
+6. Environment variables
+
+This ensures type safety beyond compile-time TypeScript checks. 

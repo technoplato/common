@@ -1,0 +1,21 @@
+---
+description: Best practices for importing modules and types
+globs: *.ts,*.tsx
+alwaysApply: true
+---
+
+## Imports
+
+- When importing types or functions from external libraries, rename them to clearly indicate their source.
+- Use the 'as' keyword to rename imports from third-party libraries.
+
+```typescript
+// ❌ Bad: Importing without renaming
+// ✅ Good: Renaming imports to indicate source
+import {
+  createWallet,
+  createWallet as createWalletThirdweb,
+  Wallet as ThirdwebWallet,
+  Wallet,
+} from "thirdweb/wallets"
+``` 

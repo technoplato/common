@@ -1,0 +1,23 @@
+---
+description: Best practices for function parameter handling
+globs: *.ts,*.tsx
+alwaysApply: true
+---
+
+## Function Parameters
+
+- Use object parameters with inline types.
+- Destructure parameters at the top of the function body.
+
+```typescript
+// ❌ Bad: Individual parameters
+function sendMessage(recipientId: string, content: string) {
+  // Function body
+}
+
+// ✅ Good: Object parameters with destructuring
+function sendMessage(args: { recipientId: string; content: string }) {
+  const { recipientId, content } = args
+  // Function body
+}
+``` 

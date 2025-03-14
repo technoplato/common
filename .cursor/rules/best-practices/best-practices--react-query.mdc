@@ -1,0 +1,68 @@
+## React Query Best Practices
+
+- Create query related code in a file with `<domain>.query.ts`.
+- Create queryKeys as constants in a central `QueryKeys.ts` file or locally within the query file.
+- Ensure you import `queryOptions`, `skipToken`, and `useQuery` from `@tanstack/react-query`.
+- Use `queryOptions` helper for type safety.
+- Handle conditional fetching with enabled flag.
+- Declare enabled flag as an intermediate variable and use it in the `queryOptions` function for conditional queryFn.
+- Use `skipToken` from `@tanstack/react-query` to skip queries when the enabled flag is false.
+- Include helper functions for data manipulation, including `setQueryData`, `invalidateQueries`, and `ensureQueryData`.
+- Use descriptive function names that align with their purpose (`get<Domain>QueryOptions`, `use<Domain>Query`, etc.).
+
+```typescript
+// ❌ Bad: Direct key usage
+const { data } = useQuery(["messages", id])
+
+// ✅ Good: Using query options
+export const get<Domain>QueryOptions = (args: { id: string }) => {
+  const enabled = !!args.id
+
+  return queryOptions({
+    queryKey: <domain>QueryKey(args.id),
+    queryFn: enabled ? () => fetch<Domain>(args) : skipToken,
+    enabled,
+  })
+}
+
+// In <domain>.query.ts file
+export function get<Domain>QueryOptions(
+  args: Optional<IGet<Domain>ArgsWithCaller, "caller">,
+) {
+  const { account, topic, caller } = args
+  const enabled = !!topic && !!account
+  return queryOptions({
+    meta: {
+      caller,
+    },
+    queryKey: <domain>QueryKey(account, topic),
+    queryFn: enabled ? () => get<Domain>({ account, topic }) : skipToken,
+    enabled,
+  })
+}
+
+export const use<Domain>Query = (args: IGet<Domain>ArgsWithCaller) => {
+  return useQuery(get<Domain>QueryOptions(args))
+}
+
+// Helper functions for data manipulation
+export const set<Domain>QueryData = (args: {
+  account: string
+  topic: TopicType
+  <domain>: IXmtp<Domain>WithCodecs
+}) => {
+  reactQueryClient.setQueryData(
+    get<Domain>QueryOptions({ account: args.account, topic: args.topic }).queryKey,
+    args.<domain>
+  )
+}
+
+export const get<Domain>QueryData = (args: {
+  account: string
+  topic: TopicType
+}) => {
+  return reactQueryClient.getQueryData(
+    get<Domain>QueryOptions({ account: args.account, topic: args.topic }).queryKey
+  )
+}
+```
