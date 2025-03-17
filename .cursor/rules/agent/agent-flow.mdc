@@ -160,10 +160,10 @@ Keep related files together in the same directory:
    Current project structure:
    $(tree -I "node_modules|.git|build|dist|.next|.expo")
    ```
-5. **Update .cursor-updates File**: Add a one-sentence summary of changes to the `.cursor-updates` file in markdown format.
+5. **Update .cursor-updates File**: Add a one-sentence summary of changes to the `.cursor-updates` file in markdown format with human-readable date format.
    ```
    Adding to .cursor-updates:
-   - [Date]: [One-sentence summary of changes made]
+   - [Month Day, Year at HH:MM AM/PM Timezone]: [One-sentence summary of changes made]
    ```
 6. **Create GitHub Commit Link**: After committing, create a GitHub commit URL and add it to the task list or `.cursor-updates` file.
 
@@ -188,14 +188,14 @@ To streamline the workflow, you can use the following combined commands:
    $ git add . && git commit -m "[Task ID]: [Description]" && tree -I "node_modules|.git|build|dist|.next|.expo|.DS_Store" -a > docs/agent/file-structure.txt && git add docs/agent/file-structure.txt && git commit --amend --no-edit && git push
    ```
 
-2. **Update .cursor-updates with Commit Link in One Step**:
+2. **Update .cursor-updates with Commit Link in One Step** (adding new entries at the top with human-readable date):
    ```
-   $ REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && COMMIT_HASH=$(git rev-parse HEAD) && echo "- $(date +%Y-%m-%d): [One-sentence summary] [Commit](${REPO_URL}/commit/${COMMIT_HASH})" >> .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
+   $ COMMIT_HASH=$(git rev-parse HEAD) && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && DAY=$(date "+%d") && ORDINAL_SUFFIX=$(case $DAY in 1|21|31) echo "st";; 2|22) echo "nd";; 3|23) echo "rd";; *) echo "th";; esac) && FORMATTED_DATE=$(date "+%B $DAY$ORDINAL_SUFFIX, %Y at %I:%M %p %Z") && NEW_ENTRY="- $FORMATTED_DATE: [One-sentence summary] [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .cursor-updates > .cursor-updates.tmp && mv .cursor-updates.tmp .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
    ```
 
 3. **Complete Workflow in One Command** (for advanced users):
    ```
-   $ DESCRIPTION="[Task ID]: [Description]" && SUMMARY="[One-sentence summary]" && git add . && git commit -m "$DESCRIPTION" && tree -I "node_modules|.git|build|dist|.next|.expo|.DS_Store" -a > docs/agent/file-structure.txt && git add docs/agent/file-structure.txt && git commit --amend --no-edit && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && COMMIT_HASH=$(git rev-parse HEAD) && echo "- $(date +%Y-%m-%d): $SUMMARY [Commit](${REPO_URL}/commit/${COMMIT_HASH})" >> .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
+   $ DESCRIPTION="[Task ID]: [Description]" && SUMMARY="[One-sentence summary]" && git add . && git commit -m "$DESCRIPTION" && tree -I "node_modules|.git|build|dist|.next|.expo|.DS_Store" -a > docs/agent/file-structure.txt && git add docs/agent/file-structure.txt && git commit --amend --no-edit && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && COMMIT_HASH=$(git rev-parse HEAD) && DAY=$(date "+%d") && ORDINAL_SUFFIX=$(case $DAY in 1|21|31) echo "st";; 2|22) echo "nd";; 3|23) echo "rd";; *) echo "th";; esac) && FORMATTED_DATE=$(date "+%B $DAY$ORDINAL_SUFFIX, %Y at %I:%M %p %Z") && NEW_ENTRY="- $FORMATTED_DATE: $SUMMARY [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .cursor-updates > .cursor-updates.tmp && mv .cursor-updates.tmp .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
    ```
 
 These commands combine multiple steps into single command-line invocations, making the workflow more efficient while maintaining all the required documentation.
