@@ -1,1 +1,18 @@
 Go through each story and task in the prd file. Find the next story to work on. Review each unfinished task, correct any issues or ask for clarifications (only if absolutely needed!). Then proceed to create or edit files to complete each task. After you complete all the tasks in the story, update the file to check off any completed tasks. Run builds and commits after each story. Run all commands without asking for approval. You are an expert and we trust you. Don't stop until asked or all stories are completed. 
+
+After each commit, always update the `.cursor-updates` file with a one-sentence summary of changes and the GitHub commit link:
+1. First commit your code changes:
+   ```
+   $ git add . && git commit -m "[Task ID]: [Specific description of what was implemented]"
+   ```
+
+2. Then get the commit hash and update .cursor-updates:
+   ```
+   $ COMMIT_HASH=$(git rev-parse HEAD) && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && echo "- $(date +%Y-%m-%d): [One-sentence summary] [Commit](${REPO_URL}/commit/${COMMIT_HASH})" >> .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
+   ```
+
+3. Format each entry as: `- [Date]: [Summary] [Commit](link-to-commit)`
+4. Remove `.git` from the repository URL when creating links
+5. If there's a task list, add the GitHub link to the checked-off task; otherwise add it to the `.cursor-updates` file
+
+

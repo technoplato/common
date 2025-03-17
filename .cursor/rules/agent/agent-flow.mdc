@@ -289,4 +289,32 @@ Always maintain an up-to-date representation of the project's file structure:
 3. **Reference in Planning**: When planning implementation, reference the file structure to ensure new files follow the established patterns and organization.
 4. **Include in Workflow**: Make updating the file structure documentation a standard part of the workflow after completing any task that modifies the project structure.
 
-This documentation helps maintain a clear understanding of the codebase organization and assists the AI agent in providing accurate guidance and recommendations.
+Ensure stories follow these best practices based on project type:
+
+**Typescript**
+
+- Always use bun (unless the project requires a different package manager)
+- Always use express and prisma for data backed applications
+- For realtime applications, use InstantDb (https://www.instantdb.com/docs)
+
+**React/React Native:**
+
+- Use TanStack Query, Zustand for storage, MMKV for persistence
+- Always use Expo and TypeScript
+- For native dependencies not in Expo, include tasks to create Expo development client
+
+**Python:**
+
+- Use UV for environment management
+
+**All Projects:**
+
+- Strongly type and validate environment variables (runtime/build time)
+- Follow idiomatic environment variable practices
+
+**Multi-system Projects:**
+
+- Use Turbo Repo for monorepo management
+- Include setup instructions for Turbo Repo
+- Prioritize getting tests running with shared modules across applications
+- Implement TypeScript with shared types
