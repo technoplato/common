@@ -312,9 +312,3 @@ Ensure stories follow these best practices based on project type:
 - Strongly type and validate environment variables (runtime/build time)
 - Follow idiomatic environment variable practices
 
-**Multi-system Projects:**
-
-- Use Turbo Repo for monorepo management
-- Include setup instructions for Turbo Repo
-- Prioritize getting tests running with shared modules across applications
-- Implement TypeScript with shared types
