@@ -8,9 +8,7 @@ After each commit, always update the `.cursor-updates` file with a one-sentence 
 
 2. Then get the commit hash and update .cursor-updates (adding new entries at the top):
    ```
-   $ COMMIT_HASH=$(git rev-parse HEAD) && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && sed -i '' -e '2i\
-   - '"$(date +%Y-%m-%d)"': [One-sentence summary] [Commit]('"${REPO_URL}/commit/${COMMIT_HASH}"')
-   ' .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
+   $ COMMIT_HASH=$(git rev-parse HEAD) && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && NEW_ENTRY="- $(date +%Y-%m-%d): [One-sentence summary] [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .cursor-updates > .cursor-updates.tmp && mv .cursor-updates.tmp .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
    ```
 
 3. Format each entry as: `- [Date]: [Summary] [Commit](link-to-commit)`
