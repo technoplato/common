@@ -14,5 +14,6 @@ After each commit, always update the `.cursor-updates` file with a one-sentence 
 3. Format each entry as: `- [Date]: [Summary] [Commit](link-to-commit)`
 4. Remove `.git` from the repository URL when creating links
 5. If there's a task list, add the GitHub link to the checked-off task; otherwise add it to the `.cursor-updates` file
+6. Always do this after completing a task or story - never skip this step
 
 
