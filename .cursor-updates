@@ -1,4 +1,5 @@
 # Cursor Updates
+- 2025-03-17: Updated agent-go with working top-insertion command [Commit](https://github.com/technoplato/common/commit/01c3bafef6ef4e57d4793f1f44ab83aadfde98e3)
 - 2025-03-17: Updated agent-go to add new entries at the top of cursor-updates file [Commit](https://github.com/technoplato/common/commit/0fc35cc2d58018212ac97d140dce23190085243c)
 
 - 2024-07-10: Generated project file structure and updated coding agent prompt with kebab-case file naming conventions and .cursor-updates documentation requirements. [Commit](https://github.com/technoplato/common/commit/6200c9c10698a81f97423426c2f1cff0154b6f2c)
