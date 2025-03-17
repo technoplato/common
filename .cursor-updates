@@ -8,3 +8,4 @@
 - 2025-03-14: Updated README with efficient workflow command examples [Commit](https://github.com/technoplato/common/commit/44a7af318e4767e3c9ed73f2537f6994c8fcc9cd)
 - 2025-03-14: Updated workflow commands to automatically push changes after commits.
 - 2025-03-14: Updated workflow commands to automatically push changes after commits [Commit](https://github.com/technoplato/common/commit/6ba9c1ae44634918009b7fcd7cb63b6c09b4801b)
+- 2025-03-17: Updated agent-go prompt with cursor-updates instructions [Commit](https://github.com/technoplato/common/commit/aeaf5629e203cca5a94e5fe0e9dc9b9c723215df)
