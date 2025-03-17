@@ -1,19 +1,19 @@
 Go through each story and task in the prd file. Find the next story to work on. Review each unfinished task, correct any issues or ask for clarifications (only if absolutely needed!). Then proceed to create or edit files to complete each task. After you complete all the tasks in the story, update the file to check off any completed tasks. Run builds and commits after each story. Run all commands without asking for approval. You are an expert and we trust you. Don't stop until asked or all stories are completed. 
 
-After each commit, always update the `.cursor-updates` file with a one-sentence summary of changes and the GitHub commit link:
+After each commit, always update the `.agent-updates` file with a one-sentence summary of changes and the GitHub commit link:
 1. First commit your code changes:
    ```
    $ git add . && git commit -m "[Task ID]: [Specific description of what was implemented]"
    ```
 
-2. Then get the commit hash and update .cursor-updates (adding new entries at the top):
+2. Then get the commit hash and update .agent-updates (adding new entries at the top):
    ```
-   $ COMMIT_HASH=$(git rev-parse HEAD) && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && DAY=$(date "+%d") && ORDINAL_SUFFIX=$(case $DAY in 1|21|31) echo "st";; 2|22) echo "nd";; 3|23) echo "rd";; *) echo "th";; esac) && FORMATTED_DATE=$(date "+%B $DAY$ORDINAL_SUFFIX, %Y at %I:%M %p %Z") && NEW_ENTRY="- $FORMATTED_DATE: [One-sentence summary] [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .cursor-updates > .cursor-updates.tmp && mv .cursor-updates.tmp .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
+   $ COMMIT_HASH=$(git rev-parse HEAD) && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && DAY=$(date "+%d") && ORDINAL_SUFFIX=$(case $DAY in 1|21|31) echo "st";; 2|22) echo "nd";; 3|23) echo "rd";; *) echo "th";; esac) && FORMATTED_DATE=$(date "+%B $DAY$ORDINAL_SUFFIX, %Y at %I:%M %p %Z") && NEW_ENTRY="- $FORMATTED_DATE: [One-sentence summary] [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .agent-updates > .agent-updates.tmp && mv .agent-updates.tmp .agent-updates && git add .agent-updates && git commit -m "Update .agent-updates with commit link" && git push
    ```
 
 3. Format each entry as: `- [Month Day, Year at HH:MM AM/PM Timezone]: [Summary] [Commit](link-to-commit)`
 4. Remove `.git` from the repository URL when creating links
-5. If there's a task list, add the GitHub link to the checked-off task; otherwise add it to the `.cursor-updates` file
+5. If there's a task list, add the GitHub link to the checked-off task; otherwise add it to the `.agent-updates` file
 6. Always do this after completing a task or story - never skip this step
 
 

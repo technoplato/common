@@ -18,9 +18,9 @@ git add docs/agent/file-structure.txt && \
 git commit --amend --no-edit && \
 REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && \
 COMMIT_HASH=$(git rev-parse HEAD) && \
-echo "- $(date +%Y-%m-%d): $SUMMARY [Commit](${REPO_URL}/commit/${COMMIT_HASH})" >> .cursor-updates && \
-git add .cursor-updates && \
-git commit -m "Update .cursor-updates with commit link" && \
+echo "- $(date +%Y-%m-%d): $SUMMARY [Commit](${REPO_URL}/commit/${COMMIT_HASH})" >> .agent-updates && \
+git add .agent-updates && \
+git commit -m "Update .agent-updates with commit link" && \
 git push
 ```
 
@@ -29,8 +29,8 @@ This command:
 1. Commits your changes with a descriptive message
 2. Updates the file structure documentation
 3. Amends the commit to include the updated file structure
-4. Adds an entry to the .cursor-updates file with the commit link
-5. Commits the updated .cursor-updates file
+4. Adds an entry to the .agent-updates file with the commit link
+5. Commits the updated .agent-updates file
 6. Pushes all changes to the remote repository
 
 See the agent-flow.mdc file for more workflow commands and documentation.

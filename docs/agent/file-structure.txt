@@ -1,5 +1,5 @@
 .
-├── .cursor
+├── .agent
 │   └── rules
 │       ├── agent
 │       │   └── agent-flow.mdc
@@ -18,7 +18,7 @@
 │               ├── best-practices--typescript.mdc
 │               ├── best-practices--zod.mdc
 │               └── best-practices--zustand.mdc
-├── .cursor-updates
+├── .agent-updates
 ├── .gitattributes
 ├── .gitignore
 ├── docs

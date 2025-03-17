@@ -113,7 +113,7 @@ Keep related files together in the same directory:
    Running tests - expected to fail:
    [test output snippet showing expected failures]
    ```
-   Can we have the agent edit the cursor updates file
+   Can we have the agent edit the agent updates file
 
 ### Implementing the Story
 
@@ -160,12 +160,12 @@ Keep related files together in the same directory:
    Current project structure:
    $(tree -I "node_modules|.git|build|dist|.next|.expo")
    ```
-5. **Update .cursor-updates File**: Add a one-sentence summary of changes to the `.cursor-updates` file in markdown format with human-readable date format.
+5. **Update .agent-updates File**: Add a one-sentence summary of changes to the `.agent-updates` file in markdown format with human-readable date format.
    ```
-   Adding to .cursor-updates:
+   Adding to .agent-updates:
    - [Month Day, Year at HH:MM AM/PM Timezone]: [One-sentence summary of changes made]
    ```
-6. **Create GitHub Commit Link**: After committing, create a GitHub commit URL and add it to the task list or `.cursor-updates` file.
+6. **Create GitHub Commit Link**: After committing, create a GitHub commit URL and add it to the task list or `.agent-updates` file.
 
    ```
    Determining repository URL:
@@ -174,10 +174,10 @@ Keep related files together in the same directory:
    Creating GitHub commit link:
    https://github.com/username/repo/commit/[commit-hash]
 
-   Adding link to task list or .cursor-updates file.
+   Adding link to task list or .agent-updates file.
    ```
 
-> Note: If you forget to update the `.cursor-updates` file, the user can type the command "finish" and you will run the build and update the file. Always remove the `.git` from the repository URL when creating GitHub commit links.
+> Note: If you forget to update the `.agent-updates` file, the user can type the command "finish" and you will run the build and update the file. Always remove the `.git` from the repository URL when creating GitHub commit links.
 
 ### Efficient Workflow Commands
 
@@ -188,14 +188,14 @@ To streamline the workflow, you can use the following combined commands:
    $ git add . && git commit -m "[Task ID]: [Description]" && tree -I "node_modules|.git|build|dist|.next|.expo|.DS_Store" -a > docs/agent/file-structure.txt && git add docs/agent/file-structure.txt && git commit --amend --no-edit && git push
    ```
 
-2. **Update .cursor-updates with Commit Link in One Step** (adding new entries at the top with human-readable date):
+2. **Update .agent-updates with Commit Link in One Step** (adding new entries at the top with human-readable date):
    ```
-   $ COMMIT_HASH=$(git rev-parse HEAD) && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && DAY=$(date "+%d") && ORDINAL_SUFFIX=$(case $DAY in 1|21|31) echo "st";; 2|22) echo "nd";; 3|23) echo "rd";; *) echo "th";; esac) && FORMATTED_DATE=$(date "+%B $DAY$ORDINAL_SUFFIX, %Y at %I:%M %p %Z") && NEW_ENTRY="- $FORMATTED_DATE: [One-sentence summary] [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .cursor-updates > .cursor-updates.tmp && mv .cursor-updates.tmp .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
+   $ COMMIT_HASH=$(git rev-parse HEAD) && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && DAY=$(date "+%d") && ORDINAL_SUFFIX=$(case $DAY in 1|21|31) echo "st";; 2|22) echo "nd";; 3|23) echo "rd";; *) echo "th";; esac) && FORMATTED_DATE=$(date "+%B $DAY$ORDINAL_SUFFIX, %Y at %I:%M %p %Z") && NEW_ENTRY="- $FORMATTED_DATE: [One-sentence summary] [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .agent-updates > .agent-updates.tmp && mv .agent-updates.tmp .agent-updates && git add .agent-updates && git commit -m "Update .agent-updates with commit link" && git push
    ```
 
 3. **Complete Workflow in One Command** (for advanced users):
    ```
-   $ DESCRIPTION="[Task ID]: [Description]" && SUMMARY="[One-sentence summary]" && git add . && git commit -m "$DESCRIPTION" && tree -I "node_modules|.git|build|dist|.next|.expo|.DS_Store" -a > docs/agent/file-structure.txt && git add docs/agent/file-structure.txt && git commit --amend --no-edit && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && COMMIT_HASH=$(git rev-parse HEAD) && DAY=$(date "+%d") && ORDINAL_SUFFIX=$(case $DAY in 1|21|31) echo "st";; 2|22) echo "nd";; 3|23) echo "rd";; *) echo "th";; esac) && FORMATTED_DATE=$(date "+%B $DAY$ORDINAL_SUFFIX, %Y at %I:%M %p %Z") && NEW_ENTRY="- $FORMATTED_DATE: $SUMMARY [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .cursor-updates > .cursor-updates.tmp && mv .cursor-updates.tmp .cursor-updates && git add .cursor-updates && git commit -m "Update .cursor-updates with commit link" && git push
+   $ DESCRIPTION="[Task ID]: [Description]" && SUMMARY="[One-sentence summary]" && git add . && git commit -m "$DESCRIPTION" && tree -I "node_modules|.git|build|dist|.next|.expo|.DS_Store" -a > docs/agent/file-structure.txt && git add docs/agent/file-structure.txt && git commit --amend --no-edit && REPO_URL=$(git remote get-url origin | sed 's/\.git$//') && COMMIT_HASH=$(git rev-parse HEAD) && DAY=$(date "+%d") && ORDINAL_SUFFIX=$(case $DAY in 1|21|31) echo "st";; 2|22) echo "nd";; 3|23) echo "rd";; *) echo "th";; esac) && FORMATTED_DATE=$(date "+%B $DAY$ORDINAL_SUFFIX, %Y at %I:%M %p %Z") && NEW_ENTRY="- $FORMATTED_DATE: $SUMMARY [Commit](${REPO_URL}/commit/${COMMIT_HASH})" && awk -v entry="$NEW_ENTRY" 'NR==1{print; print entry; next} {print}' .agent-updates > .agent-updates.tmp && mv .agent-updates.tmp .agent-updates && git add .agent-updates && git commit -m "Update .agent-updates with commit link" && git push
    ```
 
 These commands combine multiple steps into single command-line invocations, making the workflow more efficient while maintaining all the required documentation.
@@ -220,7 +220,7 @@ After completing a feature story:
    "
    ```
 
-2. **Link Pull Request**: Add the pull request URL to the task list or `.cursor-updates` file.
+2. **Link Pull Request**: Add the pull request URL to the task list or `.agent-updates` file.
    ```
    Pull Request: https://github.com/username/repo/pull/[pr-number]
    ```
@@ -265,16 +265,16 @@ After completing a feature story:
 
 When asked to update a strategy or best practice that applies across the codebase (rather than a specific piece of code):
 
-1. Look in the `.cursor/rules/best-practices` directory for the relevant best practice file
+1. Look in the `.agent/rules/best-practices` directory for the relevant best practice file
 2. Update both the best practice file and this coding agent prompt if necessary
 3. Ensure that language-specific best practices remain in their respective best practice files
 4. Keep this coding agent prompt language-agnostic and focused on universal principles
-5. Always add a one-sentence summary of changes to `.cursor-updates` file in markdown format
-6. If you forget to update the `.cursor-updates` file, the user can type the command "finish" and you will run the build and update the file
-7. After committing changes, create a GitHub commit URL and add it to the task list or `.cursor-updates` file
+5. Always add a one-sentence summary of changes to `.agent-updates` file in markdown format
+6. If you forget to update the `.agent-updates` file, the user can type the command "finish" and you will run the build and update the file
+7. After committing changes, create a GitHub commit URL and add it to the task list or `.agent-updates` file
    - For example, if `git remote -v` shows `origin https://github.com/username/repo.git (fetch)` and commit hash is `abc123`, the link should be:
    - `https://github.com/username/repo/commit/abc123` (remove the `.git` from the repository URL)
-   - Place this link adjacent to the task you've most recently committed. If there is a task list of stories, add the github link to the checked off task. If you Don't have a task list of stories. Add it to the cursor updates file.
+   - Place this link adjacent to the task you've most recently committed. If there is a task list of stories, add the github link to the checked off task. If you Don't have a task list of stories. Add it to the agent updates file.
 
 ## File Structure Documentation
 

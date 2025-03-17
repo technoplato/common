@@ -1,10 +1,10 @@
-# Cursor Updates
-- March 17th, 2025 at 10:08 AM EDT: Updated agent-flow.mdc with human-readable date format for cursor-updates [Commit](https://github.com/technoplato/common/commit/1d9c53b746379692e72186b97aba0650b3365a32)
+# agent Updates
+- March 17th, 2025 at 10:08 AM EDT: Updated agent-flow.mdc with human-readable date format for agent-updates [Commit](https://github.com/technoplato/common/commit/1d9c53b746379692e72186b97aba0650b3365a32)
 - March 17th, 2025 at 10:07 AM EDT: Updated agent-go with human-readable date format [Commit](https://github.com/technoplato/common/commit/b4cbd108d39f9073aee0268cae3242f6c7329c69)
 - 2025-03-17: Updated agent-go with working top-insertion command [Commit](https://github.com/technoplato/common/commit/01c3bafef6ef4e57d4793f1f44ab83aadfde98e3)
-- 2025-03-17: Updated agent-go to add new entries at the top of cursor-updates file [Commit](https://github.com/technoplato/common/commit/0fc35cc2d58018212ac97d140dce23190085243c)
+- 2025-03-17: Updated agent-go to add new entries at the top of agent-updates file [Commit](https://github.com/technoplato/common/commit/0fc35cc2d58018212ac97d140dce23190085243c)
 
-- 2024-07-10: Generated project file structure and updated coding agent prompt with kebab-case file naming conventions and .cursor-updates documentation requirements. [Commit](https://github.com/technoplato/common/commit/6200c9c10698a81f97423426c2f1cff0154b6f2c)
+- 2024-07-10: Generated project file structure and updated coding agent prompt with kebab-case file naming conventions and .agent-updates documentation requirements. [Commit](https://github.com/technoplato/common/commit/6200c9c10698a81f97423426c2f1cff0154b6f2c)
 - 2024-07-10: Updated coding agent prompt with instructions for feature branching, pushing branches, and creating pull requests. [Commit](https://github.com/technoplato/common/commit/7daf95e85ec953d40085efd3a2c78ee9283994fe)
 - 2024-07-14: Added file structure documentation rule to agent-flow.mdc and updated docs/agent/file-structure.txt with current project structure. [Commit](https://github.com/technoplato/common/commit/230987aef566211b1d4efe8462b1c3126fddf9a0)
 - 2024-07-14: Added efficient workflow commands to agent-flow.mdc for streamlined commit and documentation processes.
@@ -12,6 +12,6 @@
 - 2025-03-14: Updated README with efficient workflow command examples [Commit](https://github.com/technoplato/common/commit/44a7af318e4767e3c9ed73f2537f6994c8fcc9cd)
 - 2025-03-14: Updated workflow commands to automatically push changes after commits.
 - 2025-03-14: Updated workflow commands to automatically push changes after commits [Commit](https://github.com/technoplato/common/commit/6ba9c1ae44634918009b7fcd7cb63b6c09b4801b)
-- 2025-03-17: Updated agent-go prompt with cursor-updates instructions [Commit](https://github.com/technoplato/common/commit/aeaf5629e203cca5a94e5fe0e9dc9b9c723215df)
+- 2025-03-17: Updated agent-go prompt with agent-updates instructions [Commit](https://github.com/technoplato/common/commit/aeaf5629e203cca5a94e5fe0e9dc9b9c723215df)
 - 2025-03-17: Added test file for demonstration [Commit](https://github.com/technoplato/common/commit/65308982ba62fd7c3a1ab08178d2291cc8ac85c6)
 - 2025-03-17: Updated agent-go prompt with command execution instruction [Commit](https://github.com/technoplato/common/commit/542b20cad0b9084a74a80c7dca3568a28f4b8b99)
